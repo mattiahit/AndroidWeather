@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 public class FavouriteLocation {
 
     @PrimaryKey
-    private int id;
+    private long id;
 
     @ColumnInfo(name="location_name")
     private String locationName;
@@ -19,11 +19,11 @@ public class FavouriteLocation {
     @ColumnInfo(name="location_lon")
     private double locationLon;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+@Deprecated
 public class BaseApi {
 
     private final String SERVER_ADDRESS = "http://api.openweathermap.org/data/2.5/weather";

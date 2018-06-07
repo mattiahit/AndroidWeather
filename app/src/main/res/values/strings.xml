@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">AndroidWeather</string>
+    <string name="enter_city_name">Enter city name</string>
+    <string name="auto_detect_location">Auto detect location</string>
+    <string name="no_permission_for_localization">No permission for localization</string>
+    <string name="temperature">temperature</string>
+    <string name="wind">wind</string>
+    <string name="clouds">clouds</string>
+    <string name="pressure">pressure</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="add_to_favourities_question">Add to favourities?</string>
+    <string name="location_as_favourite">Location added as favourite</string>
 </resources>

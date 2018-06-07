@@ -2,6 +2,7 @@ package pl.mattiahit.androidweather.api;
 
 import android.content.Context;
 
+@Deprecated
 public class LocationWeatherApi extends BaseApi {
 
     public LocationWeatherApi(Context context) {
