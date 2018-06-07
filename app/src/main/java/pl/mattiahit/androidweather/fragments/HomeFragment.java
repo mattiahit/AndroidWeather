@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.mattiahit.androidweather.MainActivity;
 import pl.mattiahit.androidweather.R;
+import pl.mattiahit.androidweather.async.CheckLocationExist;
 import pl.mattiahit.androidweather.async.GetFavLocations;
 import pl.mattiahit.androidweather.async.InsertFavLocation;
 import pl.mattiahit.androidweather.dialogs.ConfirmDialog;
@@ -47,6 +49,8 @@ public class HomeFragment extends Fragment {
     ImageButton manage_favourites_btn;
     @BindView(R.id.location_weather_temperature)
     TextView location_weather_temperature;
+    @BindView(R.id.go_to_fav)
+    Button go_to_fav;
     @BindString(R.string.no_permission_for_localization)
     String no_permission_for_localization;
     @BindString(R.string.temperature)
@@ -61,10 +65,11 @@ public class HomeFragment extends Fragment {
     String add_to_favourities_question;
     @BindString(R.string.location_as_favourite)
     String location_as_favourite;
+    @BindString(R.string.location_already_exists)
+    String location_already_exists;
 
     private MainActivity mainActivity;
     private JsonObject currentObject;
-    private List<FavouriteLocation> listOfFavourities;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,29 +122,49 @@ public class HomeFragment extends Fragment {
     @OnClick(R.id.manage_favourites_btn)
     public void addToFavourities(){
         if(currentObject != null) {
-            final ConfirmDialog confirmDialog = ConfirmDialog.newInstance(add_to_favourities_question);
-            confirmDialog.setConfirmListener(new View.OnClickListener() {
+            CheckLocationExist checkLocationExist = new CheckLocationExist(this.mainActivity.getAppDatabase(), currentObject.get("name").getAsString());
+            checkLocationExist.setListener(new CheckLocationExist.AsyncTaskListener() {
                 @Override
-                public void onClick(View view) {
-                    confirmDialog.dismiss();
-                    FavouriteLocation favouriteLocation = new FavouriteLocation();
-                    favouriteLocation.setId(Tools.getRandomLongId());
-                    favouriteLocation.setLocationName(currentObject.get("name").getAsString());
-                    favouriteLocation.setLocationLat(currentObject.getAsJsonObject("coord").get("lat").getAsDouble());
-                    favouriteLocation.setLocationLon(currentObject.getAsJsonObject("coord").get("lon").getAsDouble());
-
-                    InsertFavLocation insertFavLocation = new InsertFavLocation(mainActivity.getAppDatabase(), favouriteLocation);
-                    insertFavLocation.setListener(new InsertFavLocation.AsyncTaskListener() {
-                        @Override
-                        public void onAsyncTaskFinished(Integer value) {
-                            mainActivity.showToast(location_as_favourite);
-                        }
-                    });
-                    insertFavLocation.execute();
+                public void onAsyncTaskFinished(Boolean value) {
+                    if(!value.booleanValue())
+                        instertFavLocation();
+                    else
+                        mainActivity.showToast(location_already_exists);
                 }
             });
-            confirmDialog.show(mainActivity.getSupportFragmentManager(),"question_dialog");
+            checkLocationExist.execute();
         }
+    }
+
+    private void instertFavLocation(){
+        final ConfirmDialog confirmDialog = ConfirmDialog.newInstance(add_to_favourities_question);
+        confirmDialog.setConfirmListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmDialog.dismiss();
+                FavouriteLocation favouriteLocation = new FavouriteLocation();
+                favouriteLocation.setId(Tools.getRandomLongId());
+                favouriteLocation.setLocationName(currentObject.get("name").getAsString());
+                favouriteLocation.setLocationLat(currentObject.getAsJsonObject("coord").get("lat").getAsDouble());
+                favouriteLocation.setLocationLon(currentObject.getAsJsonObject("coord").get("lon").getAsDouble());
+
+                InsertFavLocation insertFavLocation = new InsertFavLocation(mainActivity.getAppDatabase(), favouriteLocation);
+                insertFavLocation.setListener(new InsertFavLocation.AsyncTaskListener() {
+                    @Override
+                    public void onAsyncTaskFinished(Integer value) {
+                        mainActivity.showToast(location_as_favourite);
+                        checkForFavourities();
+                    }
+                });
+                insertFavLocation.execute();
+            }
+        });
+        confirmDialog.show(mainActivity.getSupportFragmentManager(),"question_dialog");
+    }
+
+    @OnClick(R.id.go_to_fav)
+    public void goToFav(){
+        this.mainActivity.getNavigator().goToFavouriteList();
     }
 
     private void cleanLocationInfo(){
@@ -174,8 +199,7 @@ public class HomeFragment extends Fragment {
         getFavLocations.setListener(new GetFavLocations.AsyncTaskListener() {
             @Override
             public void onAsyncTaskFinished(List<FavouriteLocation> value) {
-                listOfFavourities = value;
-                Tools.showLog("listOfFavourities = " + listOfFavourities.size());
+                go_to_fav.setVisibility(value.size()>0?View.VISIBLE:View.GONE);
             }
         });
         getFavLocations.execute();

@@ -36,4 +36,12 @@
 
     <include layout="@layout/location_weather_detail_adapter"></include>
 
+    <Button
+        android:id="@+id/go_to_fav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="@string/favourities"/>
+
 </LinearLayout>

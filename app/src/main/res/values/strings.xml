@@ -11,4 +11,8 @@
     <string name="no">no</string>
     <string name="add_to_favourities_question">Add to favourities?</string>
     <string name="location_as_favourite">Location added as favourite</string>
+    <string name="favourities">Favourities</string>
+    <string name="location_already_exists">Location already exists in favourities</string>
+    <string name="home">Home</string>
+    <string name="delete_from_favourities_question">Do You want to delete that location from favourities?</string>
 </resources>

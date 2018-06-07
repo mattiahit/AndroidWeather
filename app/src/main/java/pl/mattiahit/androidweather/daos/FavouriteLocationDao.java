@@ -15,6 +15,9 @@ public interface FavouriteLocationDao {
     @Query("SELECT * FROM FavouriteLocation")
     List<FavouriteLocation> getAllFavouriteLocations();
 
+    @Query("SELECT EXISTS(SELECT 1 FROM FavouriteLocation WHERE location_name LIKE :name)")
+    int isLocationExist(String name);
+
     @Insert
     void instertFavouriteLocation(FavouriteLocation... favouriteLocations);
 

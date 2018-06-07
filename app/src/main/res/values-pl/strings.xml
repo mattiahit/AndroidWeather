@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AndroidWeather</string>
+    <string name="enter_city_name">Wpisz nazwę miasta</string>
+    <string name="auto_detect_location">Automatyczna lokalizacja</string>
+    <string name="no_permission_for_localization">Brak uprawnień do lokalizacji</string>
+    <string name="temperature">temperatura</string>
+    <string name="wind">wiatr</string>
+    <string name="clouds">zachmurzenie</string>
+    <string name="pressure">ciśnienie</string>
+    <string name="yes">tak</string>
+    <string name="no">nie</string>
+    <string name="add_to_favourities_question">Czy dodać do ulubionych?</string>
+    <string name="location_as_favourite">Lokalizacja dodana jako ulubiona</string>
+    <string name="favourities">Ulubione</string>
+    <string name="location_already_exists">Lokalizacja istnieje już w ulubionych</string>
+    <string name="home">Główny</string>
+    <string name="delete_from_favourities_question">Czy chce usunąć lokalizację z ulubionych?</string>
+</resources>
