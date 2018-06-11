@@ -10,10 +10,10 @@
     <string name="pressure">ciśnienie</string>
     <string name="yes">tak</string>
     <string name="no">nie</string>
-    <string name="add_to_favourities_question">Czy dodać do ulubionych?</string>
-    <string name="location_as_favourite">Lokalizacja dodana jako ulubiona</string>
-    <string name="favourities">Ulubione</string>
-    <string name="location_already_exists">Lokalizacja istnieje już w ulubionych</string>
-    <string name="home">Główny</string>
-    <string name="delete_from_favourities_question">Czy chce usunąć lokalizację z ulubionych?</string>
+    <string name="add_to_favourities_question">Czy dodać do kolekcji?</string>
+    <string name="location_as_favourite">Lokalizacja dodana do kolekcji</string>
+    <string name="favourities">Moje Lokalizacje</string>
+    <string name="location_already_exists">Lokalizacja jest już dodana do kolekcji</string>
+    <string name="home">Wyszukaj nową lokalizację</string>
+    <string name="delete_from_favourities_question">Czy chce usunąć lokalizację z kolekcji?</string>
 </resources>

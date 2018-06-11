@@ -10,10 +10,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.List;
 
+import pl.mattiahit.androidweather.async.GetFavLocations;
+import pl.mattiahit.androidweather.models.FavouriteLocation;
 import pl.mattiahit.androidweather.utils.AppDatabase;
 import pl.mattiahit.androidweather.utils.Navigator;
 import pl.mattiahit.androidweather.utils.Tools;
@@ -37,7 +41,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
     @Override
     protected void onResume() {
         this.initLocationListener();
-        this.getNavigator().goToHome();
+
+        GetFavLocations getFavLocations = new GetFavLocations(this.getAppDatabase());
+        getFavLocations.setListener(new GetFavLocations.AsyncTaskListener() {
+            @Override
+            public void onAsyncTaskFinished(List<FavouriteLocation> value) {
+                if(value.size() > 0)
+                    getNavigator().goToFavouriteList();
+                else
+                    getNavigator().goToHome();
+            }
+        });
+        getFavLocations.execute();
 
         super.onResume();
     }

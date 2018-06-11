@@ -1,40 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/location_manage_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorAccent">
 
-        <EditText
-            android:id="@+id/city_name_edittext"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/city_name_edittext"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:lines="1"
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:textColor="#000"
+                android:background="@drawable/primary_edit_text_selector"
+                android:hint="@string/enter_city_name"/>
+
+            <ImageButton
+                android:id="@+id/search_by_city_name_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/primary_button_selector"
+                android:src="@android:drawable/ic_menu_search"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/auto_detect_btn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:lines="1"
-            android:inputType="text"
-            android:hint="@string/enter_city_name"/>
-
-        <ImageButton
-            android:id="@+id/search_by_city_name_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@android:drawable/ic_menu_search"/>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/primary_button_selector"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#FFF"
+            android:text="@string/auto_detect_location"/>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/auto_detect_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/auto_detect_location"/>
-
-    <include layout="@layout/location_weather_detail_adapter"></include>
+    <include layout="@layout/location_weather_detail_adapter"
+        android:layout_below="@+id/location_manage_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
 
     <Button
         android:id="@+id/go_to_fav"
@@ -42,6 +64,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
+        android:background="@drawable/primary_button_selector"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="#FFF"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/favourities"/>
 
-</LinearLayout>
+</RelativeLayout>

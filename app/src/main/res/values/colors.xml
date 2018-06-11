@@ -2,5 +2,10 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#DCDCDC</color>
+    <color name="colorLight">#FFF</color>
+    <color name="colorPositive">#00BB27</color>
+    <color name="colorPositiveDark">#11772D</color>
+    <color name="colorNegative">#FE2020</color>
+    <color name="colorNegativeDark">#6B0000</color>
 </resources>
