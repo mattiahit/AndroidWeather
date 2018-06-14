@@ -24,6 +24,8 @@ import pl.mattiahit.androidweather.utils.Tools;
 
 public class MainActivity extends AppCompatActivity implements LocationListener{
 
+    public final static String DETAIL_REQUEST_LOCATION = "detail_request_location";
+
     private final int PERMISSION_REQUEST_LOCATION = 123;
     private Navigator navigator;
     private AppDatabase appDatabase;
@@ -67,16 +69,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener{
         this.navigator = new Navigator(this);
         this.appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "weatherAppDatabase").build();
         this.locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-    }
-
-    public void storeData(String key, Serializable data){
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(key, data);
-        this.getIntent().putExtras(bundle);
-    }
-
-    public Serializable getStoredData(String key){
-        return this.getIntent().getExtras().getSerializable(key);
     }
 
     private void initLocationListener(){

@@ -14,7 +14,7 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pl.mattiahit.androidweather.FavouriteLocationAdapter;
+import pl.mattiahit.androidweather.adapters.FavouriteLocationAdapter;
 import pl.mattiahit.androidweather.MainActivity;
 import pl.mattiahit.androidweather.R;
 import pl.mattiahit.androidweather.async.DeleteFavLocation;

@@ -9,7 +9,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class BaseRestTask {
 
-    protected final String SERVER_ADDRESS = "http://api.openweathermap.org/";
+    protected final String SERVER_ADDRESS = "http://api.openweathermap.org/data/2.5/";
     protected final String API_KEY = "d85aecd601e4f0c45aacbc1362e6ea9f";
 
     protected APIService getAPIService(){

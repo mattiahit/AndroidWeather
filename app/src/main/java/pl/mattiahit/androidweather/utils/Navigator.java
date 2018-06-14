@@ -1,5 +1,6 @@
 package pl.mattiahit.androidweather.utils;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import pl.mattiahit.androidweather.MainActivity;
@@ -25,8 +26,9 @@ public class Navigator {
         this.forwardToFragment(homeFragment);
     }
 
-    public void goToLocationWeather(){
+    public void goToLocationWeather(Bundle bundle){
         LocationWeatherFragment locationWeatherFragment = new LocationWeatherFragment();
+        locationWeatherFragment.setArguments(bundle);
         this.forwardToFragment(locationWeatherFragment);
     }
 

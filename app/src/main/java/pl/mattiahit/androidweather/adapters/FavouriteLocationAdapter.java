@@ -1,9 +1,11 @@
-package pl.mattiahit.androidweather;
+package pl.mattiahit.androidweather.adapters;
 
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ import java.util.List;
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pl.mattiahit.androidweather.MainActivity;
+import pl.mattiahit.androidweather.R;
 import pl.mattiahit.androidweather.models.FavouriteLocation;
 import pl.mattiahit.androidweather.rest.WeatherForCityRestTask;
 
@@ -28,7 +32,7 @@ public class FavouriteLocationAdapter extends RecyclerView.Adapter<FavouriteLoca
 
     public FavouriteLocationAdapter(MainActivity context, List<FavouriteLocation> locationArrayList){
         this.context = context;
-        this.locationArrayList = new ArrayList<FavouriteLocation>(locationArrayList);
+        this.locationArrayList = new ArrayList<>(locationArrayList);
     }
 
     @Override
@@ -41,7 +45,7 @@ public class FavouriteLocationAdapter extends RecyclerView.Adapter<FavouriteLoca
     @Override
     public void onBindViewHolder(final FavouriteLocationAdapter.ViewHolder viewHolder, final int position) {
 
-        FavouriteLocation favouriteLocation = this.locationArrayList.get(position);
+        final FavouriteLocation favouriteLocation = this.locationArrayList.get(position);
 
         WeatherForCityRestTask weatherForCityRestTask = new WeatherForCityRestTask(favouriteLocation.getLocationName()) {
             @Override
@@ -65,6 +69,15 @@ public class FavouriteLocationAdapter extends RecyclerView.Adapter<FavouriteLoca
                     viewHolder.location_weather_clouds.setText(viewHolder.clouds + ": " + cloudLevel + "%");
                     double pressure = object.getAsJsonObject("main").get("pressure").getAsDouble();
                     viewHolder.location_weather_pressure.setText(viewHolder.pressure + ": " + pressure + "hPa");
+
+                    viewHolder.goToWeatherDetailsBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(MainActivity.DETAIL_REQUEST_LOCATION, favouriteLocation);
+                            context.getNavigator().goToLocationWeather(bundle);
+                        }
+                    });
                 }
             }
         };
@@ -96,6 +109,8 @@ public class FavouriteLocationAdapter extends RecyclerView.Adapter<FavouriteLoca
         ImageButton manage_favourites_btn;
         @BindView(R.id.location_weather_temperature)
         TextView location_weather_temperature;
+        @BindView(R.id.goToWeatherDetailsBtn)
+        Button goToWeatherDetailsBtn;
         @BindString(R.string.temperature)
         String temperature;
         @BindString(R.string.wind)
