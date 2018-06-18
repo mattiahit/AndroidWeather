@@ -45,7 +45,7 @@ public class ForecastLocationAdapter extends RecyclerView.Adapter<ForecastLocati
 
         String iconName = forecast.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
         Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(viewHolder.location_weather_icon);
-        String forecastDate = new DateTime(forecast.get("dt").getAsLong()).toString();
+        String forecastDate = new DateTime(forecast.get("dt").getAsLong()*1000).toString();
         viewHolder.location_weather_city_name.setText(forecastDate);
         int currentTemp = forecast.getAsJsonObject("main").get("temp").getAsInt() - 273;
         viewHolder.location_weather_temperature.setText(viewHolder.temperature + ": " +currentTemp + "°C");

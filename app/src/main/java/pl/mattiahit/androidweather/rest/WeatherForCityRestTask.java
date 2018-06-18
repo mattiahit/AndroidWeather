@@ -29,7 +29,7 @@ public class WeatherForCityRestTask extends BaseRestTask {
     }
 
     public void get5DayWeather(){
-        this.getAPIService().get5DayWeatherForCity(this.cityName, API_KEY).enqueue(new Callback<JsonObject>() {
+        this.getAPIService().getForecastForCity(this.cityName, API_KEY).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 doOnResult(response.code(), response.body());

@@ -34,7 +34,7 @@ public class WeatherForLocationRestTask extends BaseRestTask {
 
     public void get5DayWeather(){
         if(this.location != null) {
-            getAPIService().get5DayWeatherForLocation(this.location.getLatitude(), this.location.getLongitude(), API_KEY).enqueue(new Callback<JsonObject>() {
+            getAPIService().getForecastForLocation(this.location.getLatitude(), this.location.getLongitude(), API_KEY).enqueue(new Callback<JsonObject>() {
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     doOnResult(response.code(), response.body());

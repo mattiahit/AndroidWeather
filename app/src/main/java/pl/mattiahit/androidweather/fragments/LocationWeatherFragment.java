@@ -18,6 +18,7 @@ import pl.mattiahit.androidweather.R;
 import pl.mattiahit.androidweather.adapters.ForecastLocationAdapter;
 import pl.mattiahit.androidweather.models.FavouriteLocation;
 import pl.mattiahit.androidweather.rest.WeatherForCityRestTask;
+import pl.mattiahit.androidweather.utils.Tools;
 
 public class LocationWeatherFragment extends Fragment {
 
@@ -54,6 +55,7 @@ public class LocationWeatherFragment extends Fragment {
             @Override
             public void doOnResult(int code, JsonObject object) {
                 super.doOnResult(code, object);
+                Tools.showLog("code = " + code);
                 if(code == 200){
                     fav_list.setHasFixedSize(true);
                     mLayoutManager = new LinearLayoutManager(mainActivity);
