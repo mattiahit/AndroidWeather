@@ -3,6 +3,7 @@ package pl.mattiahit.androidweather;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -10,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,18 +27,21 @@ import pl.mattiahit.androidweather.utils.Tools;
 public class MainActivity extends AppCompatActivity implements LocationListener{
 
     public final static String DETAIL_REQUEST_LOCATION = "detail_request_location";
-
     private final int PERMISSION_REQUEST_LOCATION = 123;
     private Navigator navigator;
     private AppDatabase appDatabase;
     private LocationManager locationManager;
     private Location location;
     private boolean locationPermissionGranted = false;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.toolbar = findViewById(R.id.app_toolbar);
+        this.toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(this.toolbar);
         this.initRequiredObjects();
     }
 
