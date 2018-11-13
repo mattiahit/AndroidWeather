@@ -15,6 +15,9 @@ import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,21 +46,24 @@ public class ForecastLocationAdapter extends RecyclerView.Adapter<ForecastLocati
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         final JsonObject forecast = this.forecastList.get(position).getAsJsonObject();
 
-        String iconName = forecast.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-        Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(viewHolder.location_weather_icon);
-        String forecastDate = new DateTime(forecast.get("dt").getAsLong()*1000).toString();
+        String forecastDate = forecast.keySet().iterator().next();
         viewHolder.location_weather_city_name.setText(forecastDate);
-        int currentTemp = forecast.getAsJsonObject("main").get("temp").getAsInt() - 273;
-        viewHolder.location_weather_temperature.setText(viewHolder.temperature + ": " +currentTemp + "°C");
-        int windSpeed = forecast.getAsJsonObject("wind").get("speed").getAsInt();
-        viewHolder.location_weather_wind.setText(viewHolder.wind + ": " + windSpeed + "km/h");
-        int cloudLevel = forecast.getAsJsonObject("clouds").get("all").getAsInt();
-        viewHolder.location_weather_clouds.setText(viewHolder.clouds + ": " + cloudLevel + "%");
-        double pressure = forecast.getAsJsonObject("main").get("pressure").getAsDouble();
-        viewHolder.location_weather_pressure.setText(viewHolder.pressure + ": " + pressure + "hPa");
 
-        viewHolder.manage_favourites_btn.setVisibility(View.GONE);
-        viewHolder.goToWeatherDetailsBtn.setVisibility(View.GONE);
+//        String iconName = forecast.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
+//        Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(viewHolder.location_weather_icon);
+//        String forecastDate = new DateTime(forecast.get("dt").getAsLong()*1000).toString();
+//        viewHolder.location_weather_city_name.setText(forecastDate);
+//        int currentTemp = forecast.getAsJsonObject("main").get("temp").getAsInt() - 273;
+//        viewHolder.location_weather_temperature.setText(viewHolder.temperature + ": " +currentTemp + "°C");
+//        int windSpeed = forecast.getAsJsonObject("wind").get("speed").getAsInt();
+//        viewHolder.location_weather_wind.setText(viewHolder.wind + ": " + windSpeed + "km/h");
+//        int cloudLevel = forecast.getAsJsonObject("clouds").get("all").getAsInt();
+//        viewHolder.location_weather_clouds.setText(viewHolder.clouds + ": " + cloudLevel + "%");
+//        double pressure = forecast.getAsJsonObject("main").get("pressure").getAsDouble();
+//        viewHolder.location_weather_pressure.setText(viewHolder.pressure + ": " + pressure + "hPa");
+//
+//        viewHolder.manage_favourites_btn.setVisibility(View.GONE);
+//        viewHolder.goToWeatherDetailsBtn.setVisibility(View.GONE);
     }
 
     @Override

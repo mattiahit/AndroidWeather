@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,16 +58,53 @@ public class LocationWeatherFragment extends Fragment {
                 super.doOnResult(code, object);
                 Tools.showLog("code = " + code);
                 if(code == 200){
+                    Tools.showLog("object = " + object.toString());
                     fav_list.setHasFixedSize(true);
                     mLayoutManager = new LinearLayoutManager(mainActivity);
                     fav_list.setLayoutManager(mLayoutManager);
-                    ForecastLocationAdapter forecastLocationAdapter = new ForecastLocationAdapter(mainActivity, object.getAsJsonArray("list"));
+                    ForecastLocationAdapter forecastLocationAdapter = new ForecastLocationAdapter(mainActivity, parseJSON(object.getAsJsonArray("list")));
                     fav_list.setAdapter(forecastLocationAdapter);
                 }
             }
         };
         weatherForCityRestTask.get5DayWeather();
 
+    }
+
+    private JsonArray parseJSON(JsonArray sourceArray){
+        JsonArray resultDayArray = new JsonArray();
+        String resultDate = "";
+        JsonArray resultHourArray = new JsonArray();
+        JsonObject resultHourObject = null;
+
+        for(int i = 0; i < sourceArray.size(); i++){
+            JsonObject sourceObject = sourceArray.get(i).getAsJsonObject();
+            String[] dateTime = sourceObject.get("dt_txt").getAsString().split(" ");
+            String sourceDate = dateTime[0];
+            String sourceHour = dateTime[1];
+            if(!resultDate.equals(sourceDate)){
+                if(resultHourObject != null){
+                    JsonObject resultDayObject = new JsonObject();
+                    resultDayObject.add(resultDate,resultHourArray);
+                    resultDayArray.add(resultDayObject);
+                    resultHourArray = new JsonArray();
+                }
+                resultDate = sourceDate;
+            }
+            resultHourObject = new JsonObject();
+            resultHourObject.addProperty("hour",sourceHour);
+            resultHourObject.add("main",sourceObject.get("main").getAsJsonObject());
+            resultHourObject.add("weather",sourceObject.get("weather").getAsJsonArray());
+            resultHourObject.add("clouds",sourceObject.get("clouds").getAsJsonObject());
+            resultHourObject.add("wind",sourceObject.get("wind").getAsJsonObject());
+            resultHourObject.add("rain",sourceObject.get("rain").getAsJsonObject());
+            resultHourArray.add(resultHourObject);
+
+        }
+
+        Tools.showLog("Parse result = " + resultDayArray.toString());
+
+        return resultDayArray;
     }
 
     @OnClick(R.id.go_home_btn)
