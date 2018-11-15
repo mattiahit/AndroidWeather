@@ -7,15 +7,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 
 import butterknife.BindString;
@@ -23,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.mattiahit.androidweather.MainActivity;
 import pl.mattiahit.androidweather.R;
+import pl.mattiahit.androidweather.utils.WeatherView;
 
 public class ForecastLocationAdapter extends RecyclerView.Adapter<ForecastLocationAdapter.ViewHolder> {
 
@@ -37,7 +41,7 @@ public class ForecastLocationAdapter extends RecyclerView.Adapter<ForecastLocati
 
     @Override
     public ForecastLocationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_weather_detail_adapter, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.forecast_location_adapter, parent, false);
         ForecastLocationAdapter.ViewHolder viewHolder = new ForecastLocationAdapter.ViewHolder(view);
         return viewHolder;
     }
@@ -47,7 +51,16 @@ public class ForecastLocationAdapter extends RecyclerView.Adapter<ForecastLocati
         final JsonObject forecast = this.forecastList.get(position).getAsJsonObject();
 
         String forecastDate = forecast.keySet().iterator().next();
-        viewHolder.location_weather_city_name.setText(forecastDate);
+        viewHolder.location_weather_date.setText(forecastDate);
+
+        JsonArray forecastArray = forecast.getAsJsonArray(forecastDate);
+        Iterator iterator = forecastArray.iterator();
+        while(iterator.hasNext()){
+            JsonElement jsonElement = (JsonElement) iterator.next();
+            WeatherView weatherView = new WeatherView(this.mainActivity);
+            weatherView.initWeatherView(jsonElement.getAsJsonObject());
+            viewHolder.location_weather_hours.addView(weatherView);
+        }
 
 //        String iconName = forecast.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
 //        Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(viewHolder.location_weather_icon);
@@ -73,30 +86,35 @@ public class ForecastLocationAdapter extends RecyclerView.Adapter<ForecastLocati
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.location_weather_icon)
-        ImageView location_weather_icon;
-        @BindView(R.id.location_weather_city_name)
-        TextView location_weather_city_name;
-        @BindView(R.id.location_weather_wind)
-        TextView location_weather_wind;
-        @BindView(R.id.location_weather_pressure)
-        TextView location_weather_pressure;
-        @BindView(R.id.location_weather_clouds)
-        TextView location_weather_clouds;
-        @BindView(R.id.manage_favourites_btn)
-        ImageButton manage_favourites_btn;
-        @BindView(R.id.location_weather_temperature)
-        TextView location_weather_temperature;
-        @BindView(R.id.goToWeatherDetailsBtn)
-        Button goToWeatherDetailsBtn;
-        @BindString(R.string.temperature)
-        String temperature;
-        @BindString(R.string.wind)
-        String wind;
-        @BindString(R.string.clouds)
-        String clouds;
-        @BindString(R.string.pressure)
-        String pressure;
+        @BindView(R.id.location_weather_date)
+        TextView location_weather_date;
+        @BindView(R.id.location_weather_hours)
+        LinearLayout location_weather_hours;
+
+//        @BindView(R.id.location_weather_icon)
+//        ImageView location_weather_icon;
+//        @BindView(R.id.location_weather_city_name)
+//        TextView location_weather_city_name;
+//        @BindView(R.id.location_weather_wind)
+//        TextView location_weather_wind;
+//        @BindView(R.id.location_weather_pressure)
+//        TextView location_weather_pressure;
+//        @BindView(R.id.location_weather_clouds)
+//        TextView location_weather_clouds;
+//        @BindView(R.id.manage_favourites_btn)
+//        ImageButton manage_favourites_btn;
+//        @BindView(R.id.location_weather_temperature)
+//        TextView location_weather_temperature;
+//        @BindView(R.id.goToWeatherDetailsBtn)
+//        Button goToWeatherDetailsBtn;
+//        @BindString(R.string.temperature)
+//        String temperature;
+//        @BindString(R.string.wind)
+//        String wind;
+//        @BindString(R.string.clouds)
+//        String clouds;
+//        @BindString(R.string.pressure)
+//        String pressure;
 
 
         public ViewHolder(View v){
