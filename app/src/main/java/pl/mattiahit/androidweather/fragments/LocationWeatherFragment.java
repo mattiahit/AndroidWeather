@@ -2,21 +2,25 @@ package pl.mattiahit.androidweather.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ExpandableListView;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import pl.mattiahit.androidweather.MainActivity;
 import pl.mattiahit.androidweather.R;
-import pl.mattiahit.androidweather.adapters.ForecastLocationAdapter;
+import pl.mattiahit.androidweather.adapters.ExpandableForecastAdapter;
 import pl.mattiahit.androidweather.models.FavouriteLocation;
 import pl.mattiahit.androidweather.rest.WeatherForCityRestTask;
 import pl.mattiahit.androidweather.utils.Tools;
@@ -24,17 +28,22 @@ import pl.mattiahit.androidweather.utils.Tools;
 public class LocationWeatherFragment extends Fragment {
 
     private MainActivity mainActivity;
+    private List<String> listForecastGroup;
+    private HashMap<String, JsonArray> listForecastChild;
     private RecyclerView.LayoutManager mLayoutManager;
     private FavouriteLocation favouriteLocation;
+    private ExpandableForecastAdapter expandableForecastAdapter;
 
-    @BindView(R.id.fav_list)
-    RecyclerView fav_list;
-    @BindView(R.id.go_home_btn)
-    Button go_home_btn;
+    @BindView(R.id.expandableListView)
+    ExpandableListView expandableListView;
+//    @BindView(R.id.fav_list)
+//    RecyclerView fav_list;
+//    @BindView(R.id.go_home_btn)
+//    Button go_home_btn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_list_favourities, container, false);
+        View view = inflater.inflate(R.layout.fragment_location_weather, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -42,6 +51,10 @@ public class LocationWeatherFragment extends Fragment {
     @Override
     public void onResume() {
         this.mainActivity = (MainActivity) this.getActivity();
+        this.listForecastGroup = new ArrayList<>();
+        this.listForecastChild = new HashMap<>();
+        this.expandableForecastAdapter = new ExpandableForecastAdapter(this.mainActivity, this.listForecastGroup, this.listForecastChild);
+        this.expandableListView.setAdapter(this.expandableForecastAdapter);
         this.initForecast();
 
 
@@ -49,7 +62,7 @@ public class LocationWeatherFragment extends Fragment {
     }
 
     private void initForecast(){
-        this.go_home_btn.setText(R.string.favourities);
+        //this.go_home_btn.setText(R.string.favourities);
         this.favouriteLocation = (FavouriteLocation) this.getArguments().getSerializable(MainActivity.DETAIL_REQUEST_LOCATION);
 
         WeatherForCityRestTask weatherForCityRestTask = new WeatherForCityRestTask(this.favouriteLocation.getLocationName()){
@@ -59,11 +72,8 @@ public class LocationWeatherFragment extends Fragment {
                 Tools.showLog("code = " + code);
                 if(code == 200){
                     Tools.showLog("object = " + object.toString());
-                    fav_list.setHasFixedSize(true);
-                    mLayoutManager = new LinearLayoutManager(mainActivity);
-                    fav_list.setLayoutManager(mLayoutManager);
-                    ForecastLocationAdapter forecastLocationAdapter = new ForecastLocationAdapter(mainActivity, parseJSON(object.getAsJsonArray("list")));
-                    fav_list.setAdapter(forecastLocationAdapter);
+                    initData(object.getAsJsonArray("list"));
+                    expandableForecastAdapter.notifyDataSetChanged();
                 }
             }
         };
@@ -71,44 +81,37 @@ public class LocationWeatherFragment extends Fragment {
 
     }
 
-    private JsonArray parseJSON(JsonArray sourceArray){
-        JsonArray resultDayArray = new JsonArray();
-        String resultDate = "";
-        JsonArray resultHourArray = new JsonArray();
-        JsonObject resultHourObject = null;
+    private void initData(JsonArray sourceArray) {
+        if(sourceArray.size() > 0) {
+            String tempDayTxt = "";
+            JsonArray hourArrray = null;
 
-        for(int i = 0; i < sourceArray.size(); i++){
-            JsonObject sourceObject = sourceArray.get(i).getAsJsonObject();
-            String[] dateTime = sourceObject.get("dt_txt").getAsString().split(" ");
-            String sourceDate = dateTime[0];
-            String sourceHour = dateTime[1];
-            if(!resultDate.equals(sourceDate)){
-                if(resultHourObject != null){
-                    JsonObject resultDayObject = new JsonObject();
-                    resultDayObject.add(resultDate,resultHourArray);
-                    resultDayArray.add(resultDayObject);
-                    resultHourArray = new JsonArray();
+            for (JsonElement sourceElement : sourceArray) {
+                JsonObject sourceObject = sourceElement.getAsJsonObject();
+                String sourceDay = sourceObject.get("dt_txt").getAsString().substring(0, 10);
+                String sourceHour = sourceObject.get("dt_txt").getAsString().substring(11, 16);
+
+                if (!tempDayTxt.equals(sourceDay)) {
+                    if(hourArrray!=null) {
+                        Tools.showLog(tempDayTxt + " => " + hourArrray.toString());
+                        this.listForecastGroup.add(tempDayTxt);
+                        this.listForecastChild.put(tempDayTxt, hourArrray);
+                    }
+                    tempDayTxt = sourceDay;
+                    hourArrray = new JsonArray();
                 }
-                resultDate = sourceDate;
+
+                JsonObject hourObject = new JsonObject();
+                hourObject.addProperty("hour", sourceHour);
+                hourObject.add("main", sourceObject.get("main").getAsJsonObject());
+                hourObject.add("weather", sourceObject.get("weather").getAsJsonArray());
+                hourObject.add("clouds", sourceObject.get("clouds") != null ? sourceObject.get("clouds").getAsJsonObject() : new JsonObject());
+                hourObject.add("wind", sourceObject.get("wind") != null ? sourceObject.get("wind").getAsJsonObject() : new JsonObject());
+                hourObject.add("rain", sourceObject.get("rain") != null ? sourceObject.get("rain").getAsJsonObject() : new JsonObject());
+                hourObject.add("sys", sourceObject.get("sys").getAsJsonObject());
+
+                hourArrray.add(hourObject);
             }
-            resultHourObject = new JsonObject();
-            resultHourObject.addProperty("hour",sourceHour);
-            resultHourObject.add("main",sourceObject.get("main").getAsJsonObject());
-            resultHourObject.add("weather",sourceObject.get("weather").getAsJsonArray());
-            resultHourObject.add("clouds",sourceObject.get("clouds").getAsJsonObject());
-            resultHourObject.add("wind",sourceObject.get("wind").getAsJsonObject());
-            resultHourObject.add("rain",sourceObject.get("rain").getAsJsonObject());
-            resultHourArray.add(resultHourObject);
-
         }
-
-        Tools.showLog("Parse result = " + resultDayArray.toString());
-
-        return resultDayArray;
-    }
-
-    @OnClick(R.id.go_home_btn)
-    public void goToFav(){
-        this.mainActivity.getNavigator().goToFavouriteList();
     }
 }

@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import pl.mattiahit.androidweather.daos.FavouriteLocationDao;
 import pl.mattiahit.androidweather.models.FavouriteLocation;
 
-@Database(entities = {FavouriteLocation.class}, version = 1)
+@Database(entities = {FavouriteLocation.class}, exportSchema = false, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract FavouriteLocationDao favouriteLocationDao();
 }
