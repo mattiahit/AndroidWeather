@@ -8,6 +8,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:background="@drawable/primary_edit_text_selector"
         android:padding="10dp">
 
         <ImageView
