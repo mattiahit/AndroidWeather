@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -16,8 +17,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.mattiahit.androidweather.MainActivity;
 import pl.mattiahit.androidweather.R;
 import pl.mattiahit.androidweather.adapters.ExpandableForecastAdapter;
@@ -30,16 +33,16 @@ public class LocationWeatherFragment extends Fragment {
     private MainActivity mainActivity;
     private List<String> listForecastGroup;
     private HashMap<String, JsonArray> listForecastChild;
-    private RecyclerView.LayoutManager mLayoutManager;
     private FavouriteLocation favouriteLocation;
     private ExpandableForecastAdapter expandableForecastAdapter;
 
     @BindView(R.id.expandableListView)
     ExpandableListView expandableListView;
-//    @BindView(R.id.fav_list)
-//    RecyclerView fav_list;
-//    @BindView(R.id.go_home_btn)
-//    Button go_home_btn;
+    @BindView(R.id.forecast_title)
+    TextView forecast_title;
+
+    @BindString(R.string.forecast_for_city)
+    String forecast_for_city;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,14 +59,17 @@ public class LocationWeatherFragment extends Fragment {
         this.expandableForecastAdapter = new ExpandableForecastAdapter(this.mainActivity, this.listForecastGroup, this.listForecastChild);
         this.expandableListView.setAdapter(this.expandableForecastAdapter);
         this.initForecast();
-
-
         super.onResume();
     }
 
+    @OnClick(R.id.favourities_btn)
+    public void backToFav(){
+        this.mainActivity.getNavigator().goToFavouriteList();
+    }
+
     private void initForecast(){
-        //this.go_home_btn.setText(R.string.favourities);
         this.favouriteLocation = (FavouriteLocation) this.getArguments().getSerializable(MainActivity.DETAIL_REQUEST_LOCATION);
+        this.forecast_title.setText(String.format(forecast_for_city, this.favouriteLocation.getLocationName()));
 
         WeatherForCityRestTask weatherForCityRestTask = new WeatherForCityRestTask(this.favouriteLocation.getLocationName()){
             @Override
@@ -78,7 +84,6 @@ public class LocationWeatherFragment extends Fragment {
             }
         };
         weatherForCityRestTask.get5DayWeather();
-
     }
 
     private void initData(JsonArray sourceArray) {

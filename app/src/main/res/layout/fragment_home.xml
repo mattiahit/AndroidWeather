@@ -53,21 +53,23 @@
 
     </LinearLayout>
 
-    <include layout="@layout/location_weather_detail_adapter"
+    <include
+        android:id="@+id/location_weather_detail_view"
+        layout="@layout/location_weather_detail_adapter"
         android:layout_below="@+id/location_manage_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></include>
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/go_to_fav"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:background="@drawable/primary_button_selector"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_marginBottom="5dp"
         android:textColor="#FFF"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

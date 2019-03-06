@@ -4,10 +4,10 @@
     <string name="enter_city_name">Wpisz nazwę miasta</string>
     <string name="auto_detect_location">Automatyczna lokalizacja</string>
     <string name="no_permission_for_localization">Brak uprawnień do lokalizacji</string>
-    <string name="temperature">temperatura</string>
-    <string name="wind">wiatr</string>
-    <string name="clouds">zachmurzenie</string>
-    <string name="pressure">ciśnienie</string>
+    <string name="temperature">temperatura: %1$d °C</string>
+    <string name="wind">wiatr: %1$d km/h</string>
+    <string name="clouds">zachmurzenie: %1$d \%%</string>
+    <string name="pressure">ciśnienie: %.2f hPa</string>
     <string name="yes">tak</string>
     <string name="no">nie</string>
     <string name="add_to_favourities_question">Czy dodać do kolekcji?</string>
@@ -16,4 +16,5 @@
     <string name="location_already_exists">Lokalizacja jest już dodana do kolekcji</string>
     <string name="home">Wyszukaj nową lokalizację</string>
     <string name="delete_from_favourities_question">Czy chce usunąć lokalizację z kolekcji?</string>
+    <string name="forecast_for_city">Prognoza dla miasta: %1$s</string>
 </resources>

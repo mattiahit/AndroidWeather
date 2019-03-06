@@ -6,14 +6,15 @@
 
     <TextView
         android:id="@+id/page_title"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/colorPrimary"
         android:text="@string/favourities"
-        android:textColor="#000"
+        android:textColor="@color/colorLight"
+        android:gravity="center"
         android:textStyle="bold"
-        android:textSize="18dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="18sp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fav_list"
@@ -24,14 +25,13 @@
 
     <Button
         android:id="@+id/go_home_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:text="@string/home"
         android:background="@drawable/primary_button_selector"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textColor="#FFF"
-        android:layout_marginBottom="5dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
 

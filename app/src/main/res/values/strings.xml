@@ -3,10 +3,10 @@
     <string name="enter_city_name">Enter city name</string>
     <string name="auto_detect_location">Auto detect location</string>
     <string name="no_permission_for_localization">No permission for localization</string>
-    <string name="temperature">temperature</string>
-    <string name="wind">wind</string>
-    <string name="clouds">clouds</string>
-    <string name="pressure">pressure</string>
+    <string name="temperature">temperature: %1$d °C</string>
+    <string name="wind">wind: %1$d km/h</string>
+    <string name="clouds">clouds: %1$d \%%</string>
+    <string name="pressure">pressure: %.2f hPa</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
     <string name="add_to_favourities_question">Add to collection?</string>
@@ -15,4 +15,5 @@
     <string name="location_already_exists">Location already exists in Your collection</string>
     <string name="home">Home</string>
     <string name="delete_from_favourities_question">Do You want to delete that location from Your collection?</string>
+    <string name="forecast_for_city">Forecast for city: %1$s</string>
 </resources>

@@ -33,6 +33,8 @@ import pl.mattiahit.androidweather.utils.Tools;
 
 public class HomeFragment extends Fragment {
 
+    @BindView(R.id.location_weather_detail_view)
+    View location_weather_detail_view;
     @BindView(R.id.city_name_edittext)
     EditText city_name_edittext;
     @BindView(R.id.location_weather_icon)
@@ -180,6 +182,7 @@ public class HomeFragment extends Fragment {
     private void initLocationWeatherInfo(JsonObject object){
         Tools.showLog(object.toString());
         this.currentObject = object;
+        location_weather_detail_view.setVisibility(View.VISIBLE);
         manage_favourites_btn.setVisibility(View.VISIBLE);
         String iconName = object.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
         Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(location_weather_icon);

@@ -62,13 +62,13 @@ public class FavouriteLocationAdapter extends RecyclerView.Adapter<FavouriteLoca
                     Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(viewHolder.location_weather_icon);
                     viewHolder.location_weather_city_name.setText(object.get("name").getAsString());
                     int currentTemp = object.getAsJsonObject("main").get("temp").getAsInt() - 273;
-                    viewHolder.location_weather_temperature.setText(viewHolder.temperature + ": " +currentTemp + "°C");
+                    viewHolder.location_weather_temperature.setText(String.format(viewHolder.temperature, currentTemp));
                     int windSpeed = object.getAsJsonObject("wind").get("speed").getAsInt();
-                    viewHolder.location_weather_wind.setText(viewHolder.wind + ": " + windSpeed + "km/h");
+                    viewHolder.location_weather_wind.setText(String.format(viewHolder.wind, windSpeed));
                     int cloudLevel = object.getAsJsonObject("clouds").get("all").getAsInt();
-                    viewHolder.location_weather_clouds.setText(viewHolder.clouds + ": " + cloudLevel + "%");
+                    viewHolder.location_weather_clouds.setText(String.format(viewHolder.clouds, cloudLevel));
                     double pressure = object.getAsJsonObject("main").get("pressure").getAsDouble();
-                    viewHolder.location_weather_pressure.setText(viewHolder.pressure + ": " + pressure + "hPa");
+                    viewHolder.location_weather_pressure.setText(String.format(viewHolder.pressure, pressure));
 
                     viewHolder.goToWeatherDetailsBtn.setOnClickListener(new View.OnClickListener() {
                         @Override

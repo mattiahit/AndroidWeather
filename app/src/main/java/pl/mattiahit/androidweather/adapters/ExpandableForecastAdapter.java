@@ -127,13 +127,13 @@ public class ExpandableForecastAdapter extends BaseExpandableListAdapter {
         Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(this.location_weather_icon);
         this.location_weather_city_name.setText(weatherObject.get("hour").getAsString());
         int currentTemp = weatherObject.getAsJsonObject("main").get("temp").getAsInt() - 273;
-        this.location_weather_temperature.setText(temperature + ": " +currentTemp + "°C");
+        this.location_weather_temperature.setText(String.format(this.temperature, currentTemp));
         int windSpeed = weatherObject.getAsJsonObject("wind").get("speed").getAsInt();
-        this.location_weather_wind.setText(wind + ": " + windSpeed + "km/h");
+        this.location_weather_wind.setText(String.format(this.wind, windSpeed));
         int cloudLevel = weatherObject.getAsJsonObject("clouds").get("all").getAsInt();
-        this.location_weather_clouds.setText(clouds + ": " + cloudLevel + "%");
+        this.location_weather_clouds.setText(String.format(this.clouds, cloudLevel));
         double pressure = weatherObject.getAsJsonObject("main").get("pressure").getAsDouble();
-        this.location_weather_pressure.setText(pressure + ": " + pressure + "hPa");
+        this.location_weather_pressure.setText(String.format(this.pressure,pressure));
 
         this.manage_favourites_btn.setVisibility(View.GONE);
         this.goToWeatherDetailsBtn.setVisibility(View.GONE);
