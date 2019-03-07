@@ -8,6 +8,7 @@ Aplikacja wyswietlająca prognoze pogody dla danej lokalizacji.
 * prognoza pogody na 5 dni
 
 ###### Użyta technologia:
+* JAVA
 * Android SDK
 * ButterKnife
 * Retrofit 2
