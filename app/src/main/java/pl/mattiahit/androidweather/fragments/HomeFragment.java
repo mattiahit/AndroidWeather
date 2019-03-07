@@ -188,13 +188,13 @@ public class HomeFragment extends Fragment {
         Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(location_weather_icon);
         location_weather_city_name.setText(object.get("name").getAsString());
         int currentTemp = object.getAsJsonObject("main").get("temp").getAsInt() - 273;
-        location_weather_temperature.setText(this.temperature + ": " +currentTemp + "°C");
+        location_weather_temperature.setText(String.format(this.temperature, currentTemp));
         int windSpeed = object.getAsJsonObject("wind").get("speed").getAsInt();
-        location_weather_wind.setText(this.wind + ": " + windSpeed + "km/h");
+        location_weather_wind.setText(String.format(this.wind, windSpeed));
         int cloudLevel = object.getAsJsonObject("clouds").get("all").getAsInt();
-        location_weather_clouds.setText(this.clouds + ": " + cloudLevel + "%");
+        location_weather_clouds.setText(String.format(this.clouds, cloudLevel));
         double pressure = object.getAsJsonObject("main").get("pressure").getAsDouble();
-        location_weather_pressure.setText(this.pressure + ": " + pressure + "hPa");
+        location_weather_pressure.setText(String.format(this.pressure, pressure));
     }
 
     private void checkForFavourities(){
